@@ -16,13 +16,27 @@ import numpy as np
 import pandas as pd
 from matplotlib import colors
 
+MAX_ROWS_DISPLAYABLE = 60
+MAX_COLS_DISPLAYABLE = 80
 
 def frame(data,
           label_rows_with=None,
+          label_cols_with=None,
+          group_rows_by=None,
+          group_cols_by=None,
           figsize=(15, 9),
           missing_color='black',
           backkground_color='silver'):
     """Frame visualization of missingness.
+
+    data : pandas DataFrame or ndarray
+        of shape: (num_rows, num_col)
+
+    group_rows_by : iterable, of length num_rows
+        List of strings or numbers denoting their membership/category
+
+    group_cols_by : iterable, of length num_cols
+        List of strings or numbers denoting their membership/category
 
     figsize : tuple
 
@@ -43,8 +57,6 @@ def frame(data,
         raise ValueError('Input data must be 2D matrix!')
 
     num_rows, num_cols = data.shape
-
-    row_labels = [lbl.strip() for lbl in data[label_rows_with]]
 
     # cell-wise boolean indicator of whether data is missing in that cell or not
     cell_flag = data.isnull().values
@@ -100,6 +112,8 @@ def frame(data,
     else:
         show_col_groups = False
         
+
+    # ---
     missing_color = colors.to_rgb(missing_color)  # no alpha
     backkground_color = colors.to_rgb(backkground_color)
 
@@ -110,6 +124,7 @@ def frame(data,
     row_wise_freq = cell_flag.sum(axis=1).reshape(-1, 1)  # ensuring its atleast 2D
     col_wise_freq = cell_flag.sum(axis=0).reshape(1, -1)
 
+    # --- positioning
     fig = plt.figure(figsize=figsize)
     width = 0.7
     height = 0.7
@@ -148,7 +163,7 @@ def frame(data,
     if num_cols <= 80:
         ax_freq_over_row.xaxis.set_ticks_position('top')
         ax_freq_over_row.set_xticks(range(num_cols))
-        ax_freq_over_row.set_xticklabels(data.columns, rotation=90)
+        ax_freq_over_row.set_xticklabels(col_labels, rotation=90)
     else:
         ax_freq_over_row.set_xticks([])
         ax_freq_over_col.set_xticklabels([])
