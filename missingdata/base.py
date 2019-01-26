@@ -72,6 +72,34 @@ def frame(data,
 
     row_labels = np.array(row_labels)
     col_labels = np.array(col_labels)
+
+    # --- grouping
+    if group_rows_by is not None:
+        group_rows_by = np.array(group_rows_by)
+        row_group_set, row_group_index = np.unique(group_rows_by, return_inverse=True)
+
+        row_sort_idx = np.argsort(group_rows_by)
+        cell_flag, row_labels = reorder_rows(cell_flag, row_labels, row_sort_idx)
+        group_rows_sorted = group_rows_by[row_sort_idx]
+
+        show_row_groups = True
+        num_row_groups = len(row_group_set)
+    else:
+        show_row_groups = False
+
+    if group_cols_by is not None:
+        group_cols_by = np.array(group_cols_by)
+        col_group_set, col_group_index = np.unique(group_cols_by, return_inverse=True)
+
+        col_sort_idx = np.argsort(group_cols_by)
+        cell_flag, col_labels = reorder_cols(cell_flag, col_labels, col_sort_idx)
+        group_cols_sorted = group_cols_by[col_sort_idx]
+
+        num_col_groups = len(col_group_set)
+        show_col_groups = True
+    else:
+        show_col_groups = False
+        
     missing_color = colors.to_rgb(missing_color)  # no alpha
     backkground_color = colors.to_rgb(backkground_color)
 
