@@ -103,6 +103,37 @@ def frame(data,
         ax_freq_over_col.set_xticklabels([])
     ax_freq_over_row.set_aspect('auto')
 
+    # --- grouping indicators
+    if show_row_groups:
+        grpwise_freq_row = np.array([row_wise_freq[group_rows_sorted==row].sum() for
+                                     row in row_group_set]).reshape(-1,1)
+        ext_row_groups = (ext_frame[0]+ext_frame[2]+0.01, frame_bottom,
+                          freq_cell_size, height)
+        ax_row_groups = fig.add_axes(ext_row_groups) #sharey would be a problem
+        ax_row_groups.imshow(grpwise_freq_row)
+        ax_row_groups.set(xticks=[], xticklabels=[])
+        ax_row_groups.yaxis.tick_right()
+        if num_row_groups <= MAX_ROWS_DISPLAYABLE:
+            ax_row_groups.set(yticks=range(num_row_groups), yticklabels=row_group_set)
+        else:
+            ax_row_groups.set(yticks=[], yticklabels=[])
+        ax_row_groups.set_aspect('auto')
+            
+    if show_col_groups:
+        grpwise_freq_col = np.array([col_wise_freq[:, group_cols_sorted==col].sum() for
+                                     col in col_group_set]).reshape(1,-1)
+        ext_col_groups = (frame_left, frame_bottom - freq_cell_size - 0.02,
+                          width, freq_cell_size)
+
+        ax_col_groups = fig.add_axes(ext_col_groups) #sharex would be a problem
+        ax_col_groups.imshow(grpwise_freq_col)
+        ax_col_groups.set(yticks=[], yticklabels=[])
+        if num_col_groups <= MAX_COLS_DISPLAYABLE:
+            ax_col_groups.set(xticks=range(num_col_groups), xticklabels=col_group_set)
+        else:
+            ax_col_groups.set(xticks=[], xticklabels=[])
+        ax_col_groups.set_aspect('auto')
+
     # plt.tight_layout()
 
     plt.show(block=False)
