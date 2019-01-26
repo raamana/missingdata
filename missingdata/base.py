@@ -212,3 +212,14 @@ def frame(data,
 
 
     return ax_frame, ax_freq_over_row, ax_freq_over_col
+
+
+
+def reorder_rows(cell_flag, row_labels, row_group_index):
+
+    return cell_flag[row_group_index,:], row_labels[row_group_index]
+
+
+def reorder_cols(cell_flag, col_labels, col_group_index):
+
+    return cell_flag[:, col_group_index], col_labels[col_group_index]
