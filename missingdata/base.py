@@ -127,25 +127,32 @@ def frame(data,
     # --- positioning
     fig = plt.figure(figsize=figsize)
     width = 0.7
-    height = 0.7
+    height = 0.6
     left_freq_over_col = 0.1
 
-    frame_bottom = 0.03
-    freq_cell_size = 0.03
+    frame_bottom = 0.08
+    freq_cell_size = 0.02
 
     frame_left = left_freq_over_col + freq_cell_size + 0.01
 
-    ax_frame = fig.add_axes((frame_left, frame_bottom, width, height), frameon=False)
+    # FOC:freq over cols
+    ext_FOC = (left_freq_over_col, frame_bottom, freq_cell_size, height)
+    ext_frame = (frame_left, frame_bottom, width, height)
+    # FOR: freq over rows
+    ext_FOR = (frame_left, frame_bottom+ height + freq_cell_size + 0.02,
+               width, freq_cell_size)
+
+    # ---
+    ax_frame = fig.add_axes(ext_frame, frameon=False)
     ax_frame.imshow(frame)
     ax_frame.axis('off') # remove axes, ticks etc
     ax_frame.set_aspect('auto')
 
-    ax_freq_over_col = fig.add_axes((left_freq_over_col, frame_bottom,
-                                     freq_cell_size, height),
-                                    sharey=ax_frame)
+    # ---
+    ax_freq_over_col = fig.add_axes(ext_FOC, sharey=ax_frame)
     ax_freq_over_col.set_xticks([])
     ax_freq_over_col.set_xticklabels([])
-    if num_rows <= 60:
+    if num_rows <= MAX_ROWS_DISPLAYABLE:
         ax_freq_over_col.set_yticks(range(num_rows))
         ax_freq_over_col.set_yticklabels(row_labels)
     else:
@@ -154,13 +161,12 @@ def frame(data,
     ax_freq_over_col.imshow(row_wise_freq)
     ax_freq_over_col.set_aspect('auto')
 
-    ax_freq_over_row = fig.add_axes((frame_left, height + freq_cell_size+ 0.01,
-                                     width, freq_cell_size),
-                                    sharex=ax_frame)
+    # ---
+    ax_freq_over_row = fig.add_axes(ext_FOR, sharex=ax_frame)
     ax_freq_over_row.imshow(col_wise_freq)
     ax_freq_over_row.set_yticks([])
     ax_freq_over_row.set_yticklabels([])
-    if num_cols <= 80:
+    if num_cols <= MAX_COLS_DISPLAYABLE:
         ax_freq_over_row.xaxis.set_ticks_position('top')
         ax_freq_over_row.set_xticks(range(num_cols))
         ax_freq_over_row.set_xticklabels(col_labels, rotation=90)
