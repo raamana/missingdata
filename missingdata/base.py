@@ -49,6 +49,29 @@ def frame(data,
     # cell-wise boolean indicator of whether data is missing in that cell or not
     cell_flag = data.isnull().values
 
+    # ---- labels
+    if label_rows_with is not None:
+        if label_rows_with in data:
+            row_labels = [lbl.strip() for lbl in data[label_rows_with]]
+        elif len(label_rows_with) == num_rows:
+            row_labels = label_rows_with
+        else:
+            raise ValueError('invalid input for row labels')
+    else:
+        row_labels = ['row{}'.format(row) for row in range(num_rows)]
+
+    if label_cols_with is not None:
+        if label_cols_with in data:
+            col_labels = [lbl.strip() for lbl in data[label_cols_with]]
+        elif len(label_cols_with) == num_cols:
+            col_labels = label_cols_with
+        else:
+            raise ValueError('invalid input for column labels')
+    else:
+        col_labels = data.columns
+
+    row_labels = np.array(row_labels)
+    col_labels = np.array(col_labels)
     missing_color = colors.to_rgb(missing_color)  # no alpha
     backkground_color = colors.to_rgb(backkground_color)
 
