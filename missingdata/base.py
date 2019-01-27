@@ -292,6 +292,34 @@ def decorate_col_groups_with_total_freq(ax, group_idx, freq, group_names):
                 fontweight=cfg.grouping_fontweight,
                 horizontalalignment='center', verticalalignment='center')
 def process_labels(data, labels, length, default='row'):
+def _validate_filter_spec(spec):
+    """Validates input and returns a func"""
+
+    if isinstance(spec, (tuple, list)):
+        error_msg_window = 'Filter perc must be specified as a tuple of two values: ' \
+                           '(low, high), each value must be between 0 and 1.'
+
+        if not len(spec) == 2:
+            raise ValueError(error_msg_window)
+
+        spec = np.array(spec)
+        if (spec < 0.0).any() or (spec > 1.0).any():
+            raise ValueError(error_msg_window)
+
+        low_perc, high_perc = spec
+        filter_func = lambda perc: (perc >= low_perc) and (perc <= high_perc)
+
+    elif callable(spec):
+        if not isinstance(spec(0.5), bool):
+            raise ValueError('When filter spec is callable, its return value must be '
+                             ' of type bool!')
+        filter_func = spec
+    else:
+        raise TypeError('filter spec can only be a tuple or callable!')
+
+    return filter_func
+
+
 def process_labels(data, labels, length, default='row', type_='row'):
     """Returns the labels for samples/variables."""
 
