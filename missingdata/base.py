@@ -15,19 +15,18 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib import colors
-
-MAX_ROWS_DISPLAYABLE = 60
-MAX_COLS_DISPLAYABLE = 80
+from missingdata import config as cfg
 
 def frame(data,
           label_rows_with=None,
           label_cols_with=None,
           group_rows_by=None,
           group_cols_by=None,
-          figsize=(15, 9),
           missing_color='black',
-          backkground_color='silver'):
+          backkground_color='silver',
           group_wise_colorbar=False,
+          figsize=(15, 9),
+          ):
     """Frame visualization of missingness.
 
     data : pandas DataFrame or ndarray
@@ -39,13 +38,12 @@ def frame(data,
     group_cols_by : iterable, of length num_cols
         List of strings or numbers denoting their membership/category
 
-    figsize : tuple
-
-
     missing_color : str or RGB
         Color name must be one from either
         https://matplotlib.org/examples/color/named_colors.html or
         https://xkcd.com/color/rgb/ (prefix them with 'xkcd:')
+
+    figsize : tuple
 
     """
 
@@ -168,7 +166,7 @@ def frame(data,
     ax_freq_over_col = fig.add_axes(ext_FOC, sharey=ax_frame)
     ax_freq_over_col.set_xticks([])
     ax_freq_over_col.set_xticklabels([])
-    if num_rows <= MAX_ROWS_DISPLAYABLE:
+    if num_rows <= cfg.MAX_ROWS_DISPLAYABLE:
         ax_freq_over_col.set_yticks(range(num_rows))
         ax_freq_over_col.set_yticklabels(row_labels)
     else:
@@ -182,7 +180,7 @@ def frame(data,
     ax_freq_over_row.imshow(col_wise_freq)
     ax_freq_over_row.set_yticks([])
     ax_freq_over_row.set_yticklabels([])
-    if num_cols <= MAX_COLS_DISPLAYABLE:
+    if num_cols <= cfg.MAX_COLS_DISPLAYABLE:
         ax_freq_over_row.xaxis.set_ticks_position('top')
         ax_freq_over_row.set_xticks(range(num_cols))
         ax_freq_over_row.set_xticklabels(col_labels, rotation=90)
@@ -215,7 +213,7 @@ def frame(data,
         ax_row_groups.imshow(grpwise_freq_row)
         ax_row_groups.set(xticks=[], xticklabels=[])
         ax_row_groups.yaxis.tick_right()
-        if num_row_groups <= MAX_ROWS_DISPLAYABLE:
+        if num_row_groups <= cfg.MAX_ROWS_DISPLAYABLE:
             ax_row_groups.set(yticks=range(num_row_groups), yticklabels=row_group_set)
         else:
             ax_row_groups.set(yticks=[], yticklabels=[])
@@ -227,11 +225,10 @@ def frame(data,
                                      col in col_group_set]).reshape(1,-1)
         ext_col_groups = (frame_left, frame_bottom - freq_cell_size - 0.02,
                           width, freq_cell_size)
-
         ax_col_groups = fig.add_axes(ext_col_groups) #sharex would be a problem
         ax_col_groups.imshow(grpwise_freq_col)
         ax_col_groups.set(yticks=[], yticklabels=[])
-        if num_col_groups <= MAX_COLS_DISPLAYABLE:
+        if num_col_groups <= cfg.MAX_COLS_DISPLAYABLE:
             ax_col_groups.set(xticks=range(num_col_groups), xticklabels=col_group_set)
         else:
             ax_col_groups.set(xticks=[], xticklabels=[])
