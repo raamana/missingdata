@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib import colors
+from os.path import realpath
 
 from missingdata import config as cfg
 
@@ -30,6 +31,7 @@ def frame(data_in,
           backkground_color='silver',
           group_wise_colorbar=False,
           figsize=(15, 10),
+          out_path=None,
           show_fig=False
           ):
     """Frame visualization of missingness.
@@ -248,6 +250,8 @@ def frame(data_in,
     if show_fig:
         plt.show(block=False)
 
+    if out_path is not None:
+        fig.savefig(realpath(out_path), dpi=300, format='pdf')
 
     return ax_frame, ax_freq_over_row, ax_freq_over_col
 
