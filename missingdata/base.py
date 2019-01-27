@@ -72,7 +72,7 @@ def frame(data_in,
     except:
         raise ValueError('Input must be convertible pandas dataframe!')
 
-    num_rows, num_cols = data_in.shape
+    num_rows_orig, num_cols_orig = data_in.shape
     if len(data_in.shape) != 2:
         raise ValueError('Input data must be 2D matrix!')
 
@@ -84,6 +84,9 @@ def frame(data_in,
     # accordingly filterning labels
     row_labels = row_labels[row_filter]
     col_labels = col_labels[col_filter]
+
+    # new size
+    num_rows, num_cols = data.shape
     # --- grouping
     if group_rows_by is not None:
         if len(group_rows_by) != num_rows_orig:
