@@ -18,6 +18,8 @@ from matplotlib import colors
 from missingdata import config as cfg
 
 def frame(data,
+          filter_spec_samples=(np.finfo(np.float32).eps, 1.0),
+          filter_spec_variables=(np.finfo(np.float32).eps, 1.0),
           label_rows_with=None,
           label_cols_with=None,
           group_rows_by=None,
@@ -31,6 +33,22 @@ def frame(data,
 
     data : pandas DataFrame or ndarray
         of shape: (num_rows, num_col)
+
+    filter_spec_samples : (float, float) or callable
+        Mechanism to discard samples or variables with missing values below this
+        threshold. This must be a tuple of two values in the closed interval [0,1].
+        Default: do not show complete samples or variables (those with no missing data).
+        This is very useful when sample size or dimensionality is high, so the plot
+        legends and other labels are not too crowded or occluded altogether.
+        To focus on those with frequently missing data (e.g. top 30%), choose (0.7, 1)
+        To focus on those rarely missing (bottom 10%), choose (0.0, 0.1)
+        To focus on both frequent/rare cases, pass in a callable that takes a float value
+        as input (between 0 and 1) and returns a bool value to include or not e.g.
+
+        def to_include(perc): return (perc<0.1) or (perc>0.9)
+
+    filter_spec_variables : (float, float) or callable
+        same as filter_spec_samples (which is for rows), except for variables (columns)
 
     group_rows_by : iterable, of length num_rows
         List of strings or numbers denoting their membership/category
