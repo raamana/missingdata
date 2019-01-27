@@ -254,3 +254,27 @@ def reorder_rows(cell_flag, row_labels, row_group_index):
 def reorder_cols(cell_flag, col_labels, col_group_index):
 
     return cell_flag[:, col_group_index], col_labels[col_group_index]
+
+
+def decorate_row_groups_with_total_freq(ax, group_idx, freq, group_names):
+    """Fancy plot to show where the ROW groups are, and their total missingness."""
+
+    ax.imshow(group_idx.reshape(-1, 1), cmap=cfg.cmap_grouping)
+    ax.set(xticks=[], xticklabels=[],
+           yticks=[], yticklabels=[])
+    ax.set_aspect('auto')
+
+    freq = freq.ravel()
+    total_missingness = np.sum(freq)
+    for gg, name in enumerate(group_names):
+        this_grp_idx = np.flatnonzero(group_idx==gg)
+        this_grp_freq = freq[this_grp_idx].sum()
+        # first_idx = this_grp_idx[0]
+        mean_idx = int(np.mean(this_grp_idx))
+        identifier = '{} {:.2f}%'.format(name, 100*this_grp_freq/total_missingness)
+        ax.text(-0.25, mean_idx, identifier,
+                color=cfg.grouping_text_color,
+                # backgroundcolor=cfg.grouping_text_color_background,
+                fontweight=cfg.grouping_fontweight,
+                rotation=90, verticalalignment='center')
+
