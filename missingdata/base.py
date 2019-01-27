@@ -81,12 +81,16 @@ def frame(data_in,
     col_labels = process_labels(data_in, label_cols_with, num_cols_orig, data_in.columns,
                                 'col')
 
+    # filtering data
+    data, row_filter, col_filter = freq_filter(data_in, filter_spec_samples,
+                                               filter_spec_variables)
     # accordingly filterning labels
     row_labels = row_labels[row_filter]
     col_labels = col_labels[col_filter]
 
     # new size
     num_rows, num_cols = data.shape
+    cell_flag = data.isnull().values
     # --- grouping
     if group_rows_by is not None:
         if len(group_rows_by) != num_rows_orig:
@@ -109,6 +113,7 @@ def frame(data_in,
         if len(group_cols_by) != num_cols_orig:
             raise ValueError('Grouping variable for variables/cols must have {} elements'
                              ''.format(num_cols_orig))
+        group_cols_by = np.array(group_cols_by)[col_filter]
         col_group_set, col_group_index = np.unique(group_cols_by, return_inverse=True)
 
         col_sort_idx = np.argsort(group_cols_by)
