@@ -29,7 +29,8 @@ def frame(data_in,
           missing_color='black',
           backkground_color='silver',
           group_wise_colorbar=False,
-          figsize=(15, 9),
+          figsize=(15, 10),
+          show_fig=False
           ):
     """Frame visualization of missingness.
 
@@ -244,7 +245,8 @@ def frame(data_in,
 
     # plt.tight_layout()
 
-    plt.show(block=False)
+    if show_fig:
+        plt.show(block=False)
 
 
     return ax_frame, ax_freq_over_row, ax_freq_over_col
