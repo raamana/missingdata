@@ -164,29 +164,24 @@ def frame(data,
 
     # ---
     ax_freq_over_col = fig.add_axes(ext_FOC, sharey=ax_frame)
-    ax_freq_over_col.set_xticks([])
-    ax_freq_over_col.set_xticklabels([])
+    ax_freq_over_col.set(xticks=[], xticklabels=[])
     if num_rows <= cfg.MAX_ROWS_DISPLAYABLE:
-        ax_freq_over_col.set_yticks(range(num_rows))
-        ax_freq_over_col.set_yticklabels(row_labels)
+        ax_freq_over_col.set(yticks=range(num_rows), yticklabels=row_labels)
     else:
-        ax_freq_over_col.set_yticks([])
-        ax_freq_over_col.set_yticklabels([])
+        ax_freq_over_col.set(yticks=[], yticklabels=[])
     ax_freq_over_col.imshow(row_wise_freq)
     ax_freq_over_col.set_aspect('auto')
 
     # ---
     ax_freq_over_row = fig.add_axes(ext_FOR, sharex=ax_frame)
     ax_freq_over_row.imshow(col_wise_freq)
-    ax_freq_over_row.set_yticks([])
-    ax_freq_over_row.set_yticklabels([])
+    ax_freq_over_row.set(yticks=[], yticklabels=[])
     if num_cols <= cfg.MAX_COLS_DISPLAYABLE:
         ax_freq_over_row.xaxis.set_ticks_position('top')
         ax_freq_over_row.set_xticks(range(num_cols))
         ax_freq_over_row.set_xticklabels(col_labels, rotation=90)
     else:
-        ax_freq_over_row.set_xticks([])
-        ax_freq_over_col.set_xticklabels([])
+        ax_freq_over_row.set(xticks=[], xticklabels=[])
     ax_freq_over_row.set_aspect('auto')
 
     # --- grouping indicators: direct association by proximity
