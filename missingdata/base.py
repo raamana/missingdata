@@ -137,9 +137,22 @@ def frame(data,
 
     # FOC:freq over cols
     ext_FOC = (left_freq_over_col, frame_bottom, freq_cell_size, height)
+    if show_row_groups:
+        ext_show_row_groups = (ext_FOC[0]+ext_FOC[2]+0.005, ext_FOC[1],
+                               group_cell_size, height)
+        frame_left = ext_show_row_groups[0] + group_cell_size+ 0.01
+    else:
+        frame_left = ext_FOC[0]+ext_FOC[2]+0.005
+
     ext_frame = (frame_left, frame_bottom, width, height)
     # FOR: freq over rows
-    ext_FOR = (frame_left, frame_bottom+ height + freq_cell_size + 0.02,
+    if show_col_groups:
+        ext_show_col_groups = (frame_left, frame_bottom+ext_frame[3]+group_cell_height+0.005,
+                          width, group_cell_height)
+        ext_FOR = (frame_left, ext_show_col_groups[1]+group_cell_height+0.01,
+                   width, freq_cell_size)
+    else:
+        ext_FOR = (frame_left, frame_bottom+ height + freq_cell_size + 0.02,
                width, freq_cell_size)
 
     # ---
