@@ -292,6 +292,25 @@ def decorate_col_groups_with_total_freq(ax, group_idx, freq, group_names):
                 fontweight=cfg.grouping_fontweight,
                 horizontalalignment='center', verticalalignment='center')
 def process_labels(data, labels, length, default='row'):
+
+def freq_filter(data, row_spec, col_spec):
+    """Removes samples and variables according to their missing data frequency"""
+
+    row_filter = _validate_filter_spec(row_spec)
+    col_filter = _validate_filter_spec(col_spec)
+
+    # cell-wise boolean indicator of whether data is missing in that cell or not
+    cell_flag = data.isnull().values
+
+    row_freq = cell_flag.sum(axis=1).ravel()
+    col_freq = cell_flag.sum(axis=0).ravel()
+
+    filtered_rows = np.fromiter(map(row_filter, row_freq / row_freq.size), dtype=bool)
+    filtered_cols = np.fromiter(map(col_filter, col_freq / col_freq.size), dtype=bool)
+
+    return data.iloc[filtered_rows, filtered_cols], filtered_rows, filtered_cols
+
+
 def _validate_filter_spec(spec):
     """Validates input and returns a func"""
 
