@@ -278,3 +278,25 @@ def decorate_row_groups_with_total_freq(ax, group_idx, freq, group_names):
                 fontweight=cfg.grouping_fontweight,
                 rotation=90, verticalalignment='center')
 
+
+def decorate_col_groups_with_total_freq(ax, group_idx, freq, group_names):
+    """Fancy plot to show where the COLUMN groups are, and their total missingness."""
+
+    ax.imshow(group_idx.reshape(1, -1), cmap=cfg.cmap_grouping)
+    ax.set(xticks=[], xticklabels=[],
+           yticks=[], yticklabels=[])
+    ax.set_aspect('auto')
+    ax.set_frame_on(False)
+
+    freq = freq.ravel()
+    total_missingness = np.sum(freq)
+    for gg, name in enumerate(group_names):
+        this_grp_idx = np.flatnonzero(group_idx==gg)
+        this_grp_freq = freq[this_grp_idx].sum()
+        mean_idx = int(np.mean(this_grp_idx))
+        identifier = '{} {:.2f}%'.format(name, 100*this_grp_freq/total_missingness)
+        ax.text(mean_idx, 0.05, identifier,
+                color=cfg.grouping_text_color,
+                # backgroundcolor=cfg.grouping_text_color_background,
+                fontweight=cfg.grouping_fontweight,
+                horizontalalignment='center', verticalalignment='center')
