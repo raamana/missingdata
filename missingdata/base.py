@@ -77,10 +77,13 @@ def frame(data_in,
         raise ValueError('Input data must be 2D matrix!')
 
     # ---- labels
-    row_labels = process_labels(data_in, label_rows_with, num_rows, 'row', 'row')
-    col_labels = process_labels(data_in, label_cols_with, num_cols, data_in.columns,
+    row_labels = process_labels(data_in, label_rows_with, num_rows_orig, 'row', 'row')
+    col_labels = process_labels(data_in, label_cols_with, num_cols_orig, data_in.columns,
                                 'col')
 
+    # accordingly filterning labels
+    row_labels = row_labels[row_filter]
+    col_labels = col_labels[col_filter]
     # --- grouping
     if group_rows_by is not None:
         group_rows_by = np.array(group_rows_by)
