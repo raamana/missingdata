@@ -206,12 +206,16 @@ def frame(data_in,
         ax_row_groups = fig.add_axes(ext_show_row_groups)
         decorate_row_groups_with_total_freq(ax_row_groups, row_group_index_sorted,
                                             row_wise_freq, row_group_set)
+    else:
+        ax_row_groups = None
 
     # colorbar at bottom
     if show_col_groups:
         ax_col_groups = fig.add_axes(ext_show_col_groups)
         decorate_col_groups_with_total_freq(ax_col_groups, col_group_index_sorted,
                                             col_wise_freq, col_group_set)
+    else:
+        ax_col_groups = None
 
 
     # --- grouping stats - no association by proximity
@@ -254,7 +258,9 @@ def frame(data_in,
     if out_path is not None:
         fig.savefig(realpath(out_path), dpi=300, format='pdf')
 
-    return ax_frame, ax_freq_over_row, ax_freq_over_col
+    return fig, ax_frame, \
+           ax_freq_over_row, ax_freq_over_col, \
+           ax_row_groups, ax_col_groups
 
 
 
