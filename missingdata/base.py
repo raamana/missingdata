@@ -94,12 +94,13 @@ def frame(data_in,
     # new size
     num_rows, num_cols = data.shape
     cell_flag = data.isnull().values
+
+
     # --- grouping
     if group_rows_by is not None:
         if len(group_rows_by) != num_rows_orig:
             raise ValueError('Grouping variable for samples/rows must have {} elements'
                              ''.format(num_rows_orig))
-        group_rows_by = np.array(group_rows_by)[row_filter]
         row_group_set, row_group_index = np.unique(group_rows_by, return_inverse=True)
 
         row_sort_idx = np.argsort(group_rows_by)
@@ -128,7 +129,7 @@ def frame(data_in,
         show_col_groups = True
     else:
         show_col_groups = False
-        
+
 
     # ---
     missing_color = colors.to_rgb(missing_color)  # no alpha
@@ -148,8 +149,8 @@ def frame(data_in,
     left_freq_over_col = 0.1
 
     frame_bottom = 0.08
-    freq_cell_size = 0.02
-    group_cell_size = 0.01
+    freq_cell_size = 0.03
+    group_cell_size = 0.015
     group_cell_height = 0.02
 
     # FOC:freq over cols
@@ -311,7 +312,7 @@ def decorate_col_groups_with_total_freq(ax, group_idx, freq, group_names):
                 # backgroundcolor=cfg.grouping_text_color_background,
                 fontweight=cfg.grouping_fontweight,
                 horizontalalignment='center', verticalalignment='center')
-def process_labels(data, labels, length, default='row'):
+
 
 def freq_filter(data, row_spec, col_spec):
     """Removes samples and variables according to their missing data frequency"""
