@@ -29,6 +29,7 @@ proc_dir = pjoin(in_dir, 'processing')
 path_tier1 = pjoin(in_dir, 'Canbind.Primary.Variables.20190114.xlsx')
 tier1_full = pd.read_excel(path_tier1)
 
+np.random.seed(342)
 rows = np.random.randint(0, 180, 50)
 cols = np.append([0, 1], np.random.randint(2, 120, 60)) # keeping cols 0 and 1
 tier1 = tier1_full.iloc[rows,cols]
@@ -48,6 +49,10 @@ diag = { lbl : dx  for lbl, dx in subjlabel_dx }
 
 row_groups = [ diag[slbl] if slbl in diag else 'Unknown' for slbl in tier1['SUBJLABEL'] ]
 col_groups = [ catg[varb] if varb in catg else 'Unknown' for varb in tier1.columns ]
+
+# making them short
+row_groups = [ r[:4] for r in row_groups]
+col_groups = [ c[:4] for c in col_groups]
 
 # missing data viz
 frame(tier1,
