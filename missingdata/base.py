@@ -61,8 +61,9 @@ def frame(data,
     cell_flag = data.isnull().values
 
     # ---- labels
-    row_labels = process_labels(data, label_rows_with, num_rows, 'row')
-    col_labels = process_labels(data, label_cols_with, num_cols, data.columns)
+    row_labels = process_labels(data_in, label_rows_with, num_rows, 'row', 'row')
+    col_labels = process_labels(data_in, label_cols_with, num_cols, data_in.columns,
+                                'col')
 
     # --- grouping
     if group_rows_by is not None:
@@ -273,21 +274,24 @@ def decorate_col_groups_with_total_freq(ax, group_idx, freq, group_names):
                 fontweight=cfg.grouping_fontweight,
                 horizontalalignment='center', verticalalignment='center')
 def process_labels(data, labels, length, default='row'):
+def process_labels(data, labels, length, default='row', type_='row'):
     """Returns the labels for samples/variables."""
+
+    strip_all = lambda arr : [lbl.strip() for lbl in arr]
 
     if labels is not None:
         if labels in data:
-            out_labels = [lbl.strip() for lbl in data[labels]]
+            out_labels = data[labels]
         elif len(labels) == length:
             out_labels = labels
         else:
-            raise ValueError('invalid input for row labels')
+            raise ValueError('invalid input for {} labels'.format(type_))
     else:
-        if default in data:
-            out_labels = data[default]
-        elif isinstance(default,str):
+        if isinstance(default,str):
             out_labels = ['{}{}'.format(prefix, x) for x in range(length)]
+        elif len(default) == length:
+            out_labels = default
         else:
-            raise ValueError('Invalid spec for obtaining labels!')
+            raise ValueError('Invalid spec for obtaining {} labels!'.format(type_))
 
-    return np.fromiter(out_labels, dtype='str')
+    return np.array(strip_all(out_labels), dtype='str')
