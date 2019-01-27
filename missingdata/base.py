@@ -15,9 +15,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib import colors
+
 from missingdata import config as cfg
 
-def frame(data,
+
+def frame(data_in,
           filter_spec_samples=(np.finfo(np.float32).eps, 1.0),
           filter_spec_variables=(np.finfo(np.float32).eps, 1.0),
           label_rows_with=None,
@@ -66,17 +68,13 @@ def frame(data,
     """
 
     try:
-        data = pd.DataFrame(data)
+        data_in = pd.DataFrame(data_in)
     except:
         raise ValueError('Input must be convertible pandas dataframe!')
 
-    if len(data.shape) != 2:
+    num_rows, num_cols = data_in.shape
+    if len(data_in.shape) != 2:
         raise ValueError('Input data must be 2D matrix!')
-
-    num_rows, num_cols = data.shape
-
-    # cell-wise boolean indicator of whether data is missing in that cell or not
-    cell_flag = data.isnull().values
 
     # ---- labels
     row_labels = process_labels(data_in, label_rows_with, num_rows, 'row', 'row')
