@@ -27,6 +27,7 @@ def frame(data,
           figsize=(15, 9),
           missing_color='black',
           backkground_color='silver'):
+          group_wise_colorbar=False,
     """Frame visualization of missingness.
 
     data : pandas DataFrame or ndarray
@@ -202,6 +203,10 @@ def frame(data,
         decorate_col_groups_with_total_freq(ax_col_groups, col_group_index_sorted,
                                             col_wise_freq, col_group_set)
 
+
+    # --- grouping stats - no association by proximity
+    # colorbar on the right
+    if show_row_groups and group_wise_colorbar:
         grpwise_freq_row = np.array([row_wise_freq[group_rows_sorted==row].sum() for
                                      row in row_group_set]).reshape(-1,1)
         ext_row_groups = (ext_frame[0]+ext_frame[2]+0.01, frame_bottom,
@@ -215,8 +220,9 @@ def frame(data,
         else:
             ax_row_groups.set(yticks=[], yticklabels=[])
         ax_row_groups.set_aspect('auto')
-            
-    if show_col_groups:
+
+    # colorbar at bottom
+    if show_col_groups and group_wise_colorbar:
         grpwise_freq_col = np.array([col_wise_freq[:, group_cols_sorted==col].sum() for
                                      col in col_group_set]).reshape(1,-1)
         ext_col_groups = (frame_left, frame_bottom - freq_cell_size - 0.02,
