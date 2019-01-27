@@ -61,28 +61,8 @@ def frame(data,
     cell_flag = data.isnull().values
 
     # ---- labels
-    if label_rows_with is not None:
-        if label_rows_with in data:
-            row_labels = [lbl.strip() for lbl in data[label_rows_with]]
-        elif len(label_rows_with) == num_rows:
-            row_labels = label_rows_with
-        else:
-            raise ValueError('invalid input for row labels')
-    else:
-        row_labels = ['row{}'.format(row) for row in range(num_rows)]
-
-    if label_cols_with is not None:
-        if label_cols_with in data:
-            col_labels = [lbl.strip() for lbl in data[label_cols_with]]
-        elif len(label_cols_with) == num_cols:
-            col_labels = label_cols_with
-        else:
-            raise ValueError('invalid input for column labels')
-    else:
-        col_labels = data.columns
-
-    row_labels = np.array(row_labels)
-    col_labels = np.array(col_labels)
+    row_labels = process_labels(data, label_rows_with, num_rows, 'row')
+    col_labels = process_labels(data, label_cols_with, num_cols, data.columns)
 
     # --- grouping
     if group_rows_by is not None:
@@ -292,3 +272,22 @@ def decorate_col_groups_with_total_freq(ax, group_idx, freq, group_names):
                 # backgroundcolor=cfg.grouping_text_color_background,
                 fontweight=cfg.grouping_fontweight,
                 horizontalalignment='center', verticalalignment='center')
+def process_labels(data, labels, length, default='row'):
+    """Returns the labels for samples/variables."""
+
+    if labels is not None:
+        if labels in data:
+            out_labels = [lbl.strip() for lbl in data[labels]]
+        elif len(labels) == length:
+            out_labels = labels
+        else:
+            raise ValueError('invalid input for row labels')
+    else:
+        if default in data:
+            out_labels = data[default]
+        elif isinstance(default,str):
+            out_labels = ['{}{}'.format(prefix, x) for x in range(length)]
+        else:
+            raise ValueError('Invalid spec for obtaining labels!')
+
+    return np.fromiter(out_labels, dtype='str')
