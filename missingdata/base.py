@@ -86,7 +86,10 @@ def frame(data_in,
     col_labels = col_labels[col_filter]
     # --- grouping
     if group_rows_by is not None:
-        group_rows_by = np.array(group_rows_by)
+        if len(group_rows_by) != num_rows_orig:
+            raise ValueError('Grouping variable for samples/rows must have {} elements'
+                             ''.format(num_rows_orig))
+        group_rows_by = np.array(group_rows_by)[row_filter]
         row_group_set, row_group_index = np.unique(group_rows_by, return_inverse=True)
 
         row_sort_idx = np.argsort(group_rows_by)
@@ -100,7 +103,9 @@ def frame(data_in,
         show_row_groups = False
 
     if group_cols_by is not None:
-        group_cols_by = np.array(group_cols_by)
+        if len(group_cols_by) != num_cols_orig:
+            raise ValueError('Grouping variable for variables/cols must have {} elements'
+                             ''.format(num_cols_orig))
         col_group_set, col_group_index = np.unique(group_cols_by, return_inverse=True)
 
         col_sort_idx = np.argsort(group_cols_by)
