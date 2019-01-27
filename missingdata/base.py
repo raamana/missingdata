@@ -93,6 +93,7 @@ def frame(data,
         row_sort_idx = np.argsort(group_rows_by)
         cell_flag, row_labels = reorder_rows(cell_flag, row_labels, row_sort_idx)
         group_rows_sorted = group_rows_by[row_sort_idx]
+        row_group_index_sorted = row_group_index[row_sort_idx]
 
         show_row_groups = True
         num_row_groups = len(row_group_set)
@@ -106,6 +107,7 @@ def frame(data,
         col_sort_idx = np.argsort(group_cols_by)
         cell_flag, col_labels = reorder_cols(cell_flag, col_labels, col_sort_idx)
         group_cols_sorted = group_cols_by[col_sort_idx]
+        col_group_index_sorted = col_group_index[col_sort_idx]
 
         num_col_groups = len(col_group_set)
         show_col_groups = True
@@ -132,8 +134,8 @@ def frame(data,
 
     frame_bottom = 0.08
     freq_cell_size = 0.02
-
-    frame_left = left_freq_over_col + freq_cell_size + 0.01
+    group_cell_size = 0.01
+    group_cell_height = 0.02
 
     # FOC:freq over cols
     ext_FOC = (left_freq_over_col, frame_bottom, freq_cell_size, height)
@@ -188,8 +190,18 @@ def frame(data,
         ax_freq_over_col.set_xticklabels([])
     ax_freq_over_row.set_aspect('auto')
 
-    # --- grouping indicators
+    # --- grouping indicators: direct association by proximity
     if show_row_groups:
+        ax_row_groups = fig.add_axes(ext_show_row_groups)
+        decorate_row_groups_with_total_freq(ax_row_groups, row_group_index_sorted,
+                                            row_wise_freq, row_group_set)
+
+    # colorbar at bottom
+    if show_col_groups:
+        ax_col_groups = fig.add_axes(ext_show_col_groups)
+        decorate_col_groups_with_total_freq(ax_col_groups, col_group_index_sorted,
+                                            col_wise_freq, col_group_set)
+
         grpwise_freq_row = np.array([row_wise_freq[group_rows_sorted==row].sum() for
                                      row in row_group_set]).reshape(-1,1)
         ext_row_groups = (ext_frame[0]+ext_frame[2]+0.01, frame_bottom,
