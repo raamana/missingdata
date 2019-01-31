@@ -20,7 +20,7 @@ from os.path import realpath
 from missingdata import config as cfg
 
 
-def frame(data_in,
+def holes(data_in,
           filter_spec_samples=(np.finfo(np.float32).eps, 1.0),
           filter_spec_variables=(np.finfo(np.float32).eps, 1.0),
           label_rows_with=None,
@@ -34,7 +34,7 @@ def frame(data_in,
           out_path=None,
           show_fig=False
           ):
-    """Frame visualization of missingness.
+    """Visualization of holes (missingness) in data and their frequency.
 
     data : pandas DataFrame or ndarray
         of shape: (num_rows, num_col)
