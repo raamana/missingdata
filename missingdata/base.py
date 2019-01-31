@@ -29,6 +29,7 @@ def holes(data_in,
           group_cols_by=None,
           missing_color='black',
           backkground_color='silver',
+          freq_thresh_show_labels=0.0,
           group_wise_colorbar=False,
           figsize=(15, 10),
           out_path=None,
@@ -65,6 +66,12 @@ def holes(data_in,
         Color name must be one from either
         https://matplotlib.org/examples/color/named_colors.html or
         https://xkcd.com/color/rgb/ (prefix them with 'xkcd:')
+
+    freq_thresh_show_labels : float
+        A threshold [0, 1) to not show labels for samples/columns with missingness
+        frequency below this value. Very useful in when number of samples or variables
+        is large, and you would like to see the holes (missing values) in the context
+        of complete-data, while being able to easily identify which ones are missing.
 
     figsize : tuple
 
