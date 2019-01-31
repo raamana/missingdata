@@ -86,6 +86,8 @@ def holes(data_in,
     if len(data_in.shape) != 2:
         raise ValueError('Input data must be 2D matrix!')
 
+    label_filter = check_freq_thresh_labels(freq_thresh_show_labels)
+
     # ---- labels
     row_labels = process_labels(data_in, label_rows_with, num_rows_orig, 'row', 'row')
     col_labels = process_labels(data_in, label_cols_with, num_cols_orig, data_in.columns,
@@ -105,9 +107,11 @@ def holes(data_in,
 
     # --- grouping
     if group_rows_by is not None:
+        group_rows_by = np.array(group_rows_by)
         if len(group_rows_by) != num_rows_orig:
             raise ValueError('Grouping variable for samples/rows must have {} elements'
                              ''.format(num_rows_orig))
+        group_rows_by = group_rows_by[row_filter]
         row_group_set, row_group_index = np.unique(group_rows_by, return_inverse=True)
 
         row_sort_idx = np.argsort(group_rows_by)
@@ -121,10 +125,11 @@ def holes(data_in,
         show_row_groups = False
 
     if group_cols_by is not None:
+        group_cols_by = np.array(group_cols_by)
         if len(group_cols_by) != num_cols_orig:
             raise ValueError('Grouping variable for variables/cols must have {} elements'
                              ''.format(num_cols_orig))
-        group_cols_by = np.array(group_cols_by)[col_filter]
+        group_cols_by = group_cols_by[col_filter]
         col_group_set, col_group_index = np.unique(group_cols_by, return_inverse=True)
 
         col_sort_idx = np.argsort(group_cols_by)
@@ -148,6 +153,10 @@ def holes(data_in,
 
     row_wise_freq = cell_flag.sum(axis=1).reshape(-1, 1)  # ensuring its atleast 2D
     col_wise_freq = cell_flag.sum(axis=0).reshape(1, -1)
+
+    # normalizing frequency
+    row_wise_freq = row_wise_freq / row_wise_freq.sum()
+    col_wise_freq = col_wise_freq / col_wise_freq.sum()
 
     # --- positioning
     fig = plt.figure(figsize=figsize)
@@ -243,12 +252,12 @@ def holes(data_in,
                           freq_cell_size, height)
         ax_row_groups = fig.add_axes(ext_row_groups) #sharey would be a problem
         ax_row_groups.imshow(grpwise_freq_row)
-        ax_row_groups.set(xticks=[], xticklabels=[])
+        remove_ticks_labels(ax_row_groups, 'x')
         ax_row_groups.yaxis.tick_right()
         if num_row_groups <= cfg.MAX_ROWS_DISPLAYABLE:
             ax_row_groups.set(yticks=range(num_row_groups), yticklabels=row_group_set)
         else:
-            ax_row_groups.set(yticks=[], yticklabels=[])
+            remove_ticks_labels(ax_row_groups, 'y')
         ax_row_groups.set_aspect('auto')
 
     # colorbar at bottom
@@ -259,11 +268,11 @@ def holes(data_in,
                           width, freq_cell_size)
         ax_col_groups = fig.add_axes(ext_col_groups) #sharex would be a problem
         ax_col_groups.imshow(grpwise_freq_col)
-        ax_col_groups.set(yticks=[], yticklabels=[])
+        remove_ticks_labels(ax_col_groups, 'y')
         if num_col_groups <= cfg.MAX_COLS_DISPLAYABLE:
             ax_col_groups.set(xticks=range(num_col_groups), xticklabels=col_group_set)
         else:
-            ax_col_groups.set(xticks=[], xticklabels=[])
+            remove_ticks_labels(ax_col_groups, 'x')
         ax_col_groups.set_aspect('auto')
 
     # plt.tight_layout()
