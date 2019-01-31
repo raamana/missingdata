@@ -18,6 +18,7 @@ from matplotlib import colors
 from os.path import realpath
 
 from missingdata import config as cfg
+from missingdata.utils import set_labels, remove_ticks_labels
 
 
 def holes(data_in,
