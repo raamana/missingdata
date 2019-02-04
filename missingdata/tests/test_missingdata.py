@@ -9,7 +9,7 @@ from os.path import join as pjoin
 import numpy as np
 import pandas as pd
 
-from missingdata.base import frame
+from missingdata.base import blackholes
 
 # from quilt.data.ResidentMario import missingno_data
 # collisions = missingno_data.nyc_collision_factors()

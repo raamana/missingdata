@@ -4,7 +4,8 @@
 Missing data handling, including visualization and imputation.
 
 Visualization types include:
- 1. Frame: cell-wise boolean indicator plot (matrix)
+ 1. blackholes: cell-wise boolean indicator plot (in a matrix form),
+    showing blackholes where data is missing
  2. Frequency plots, row- and/or column-wise missingness
  3. Fancy composite combining 1. and 2., with options to color them by groups (rows/cols)
  4. Pairwise correlation
@@ -21,21 +22,21 @@ from missingdata import config as cfg
 from missingdata.utils import set_labels, remove_ticks_labels
 
 
-def holes(data_in,
-          filter_spec_samples=(np.finfo(np.float32).eps, 1.0),
-          filter_spec_variables=(np.finfo(np.float32).eps, 1.0),
-          label_rows_with=None,
-          label_cols_with=None,
-          group_rows_by=None,
-          group_cols_by=None,
-          missing_color='black',
-          backkground_color='silver',
-          freq_thresh_show_labels=0.0,
-          group_wise_colorbar=False,
-          figsize=(15, 10),
-          out_path=None,
-          show_fig=False
-          ):
+def blackholes(data_in,
+               filter_spec_samples=(np.finfo(np.float32).eps, 1.0),
+               filter_spec_variables=(np.finfo(np.float32).eps, 1.0),
+               label_rows_with=None,
+               label_cols_with=None,
+               group_rows_by=None,
+               group_cols_by=None,
+               missing_color='black',
+               backkground_color='silver',
+               freq_thresh_show_labels=0.0,
+               group_wise_colorbar=False,
+               figsize=(15, 10),
+               out_path=None,
+               show_fig=False
+               ):
     """Visualization of holes (missingness) in data and their frequency.
 
     data : pandas DataFrame or ndarray
