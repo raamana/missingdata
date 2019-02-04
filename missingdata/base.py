@@ -290,6 +290,19 @@ def blackholes(data_in,
            ax_row_groups, ax_col_groups
 
 
+def comissing(data_in,
+              filter_spec_samples=(np.finfo(np.float32).eps, 1.0),
+              filter_spec_variables=(np.finfo(np.float32).eps, 1.0),
+              cmap='viridis',
+              figsize=(15, 10),
+              out_path=None,
+              show_fig=False
+              ):
+    """
+    Pairwise relations in missingness (co-missing) between variables/subjects.
+
+    """
+
 
 def reorder_rows(cell_flag, row_labels, row_group_index):
 
