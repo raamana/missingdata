@@ -48,15 +48,35 @@ col_groups = [catg[varb] if varb in catg else 'Unknown' for varb in tier1.column
 row_groups = [r[:4] for r in row_groups]
 col_groups = [c[:4] for c in col_groups]
 
-# missing data viz
-fig, ax_frame, \
-ax_freq_over_row, ax_freq_over_col, \
-ax_row_groups, ax_col_groups = frame(tier1,
-                                     filter_spec_samples=(0.05, 1.0),
-                                     filter_spec_variables=(0.05, 1.0),
-                                     label_rows_with='SUBJLABEL',
-                                     group_rows_by=row_groups,
-                                     group_cols_by=col_groups,
-                                     out_path=pjoin(miss_vis_dir,
-                                                    'missing_data_trial.pdf'),
-                                     show_fig=True)
+min_missing = 0.00
+freq_thresh_show_labels = .01
+out_path = pjoin(miss_vis_dir,
+                 'missing_data_trial_minmiss{}perc_freqmissthresh{}.pdf'
+                 ''.format(100 * min_missing, 100 * freq_thresh_show_labels))
+
+# # missing data viz
+# fig, ax_frame, \
+# ax_freq_over_row, ax_freq_over_col, \
+# ax_row_groups, ax_col_groups = blackholes(tier1,
+#                                      label_rows_with='SUBJLABEL',
+#                                      freq_thresh_show_labels=freq_thresh_show_labels,
+#                                      out_path=out_path,
+#                                      show_fig=True)
+
+# fig, ax_frame, ax_freq_over_row, ax_freq_over_col, ax_row_groups, ax_col_groups \
+#     = blackholes(tier1,
+#             filter_spec_samples=(min_missing, 1.0),
+#             filter_spec_variables=(min_missing, 1.0),
+#             label_rows_with='SUBJLABEL',
+#             freq_thresh_show_labels=freq_thresh_show_labels,
+#             out_path=out_path,
+#             show_fig=True)
+
+
+fig, ax_frame, ax_freq_over_row, ax_freq_over_col, ax_row_groups, ax_col_groups = \
+    blackholes(tier1, label_rows_with='SUBJLABEL',
+               group_rows_by=row_groups, group_cols_by=col_groups,
+               freq_thresh_show_labels=freq_thresh_show_labels,
+               out_path=out_path, show_fig=True)
+
+print()
