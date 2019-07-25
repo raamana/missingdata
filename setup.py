@@ -5,12 +5,6 @@
 
 from setuptools import setup, find_packages
 
-with open('README.rst') as readme_file:
-    readme = readme_file.read()
-
-with open('HISTORY.rst') as history_file:
-    history = history_file.read()
-
 requirements = [ ]
 
 setup_requirements = ['pytest-runner', ]
@@ -36,7 +30,8 @@ setup(
     description="missing data visualization and imputation",
     install_requires=requirements,
     license="Apache Software License 2.0",
-    long_description=readme + '\n\n' + history,
+    long_description="""missing data visualization and imputation, 
+    with blackholes plot""",
     include_package_data=True,
     keywords='missingdata',
     name='missingdata',
@@ -45,6 +40,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/raamana/missingdata',
-    version='0.0.1',
+    version='0.1',
     zip_safe=False,
 )
