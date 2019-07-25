@@ -16,16 +16,15 @@ missingdata
 
 missing data visualization and imputation
 
-
-* Free software: Apache Software License 2.0
-* Documentation: https://missingdata.readthedocs.io.
-
-
 Features
 --------
 
 * visualization
-* imputation
+* imputation (coming!)
 * other handling
+
+
+.. image:: docs/flyer.png
+
 
 
