@@ -24,7 +24,20 @@ Features
 * other handling
 
 
+blackholes plot
+~~~~~~~~~~~~~~~~
+
 .. image:: docs/flyer.png
 
 
+State
+-------
+ - Software is beta and under dev
+ - Contributions most welcome.
 
+
+Installation
+--------------
+
+.. code-block:: bash
+    pip install -U missingdata
