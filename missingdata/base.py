@@ -19,7 +19,7 @@ from matplotlib import colors
 from os.path import realpath
 
 from missingdata import config as cfg
-from missingdata.utils import set_labels, remove_ticks_labels
+from missingdata.utils import set_labels, remove_ticks_labels, check_freq_thresh_labels
 
 
 def blackholes(data_in,
@@ -302,6 +302,8 @@ def comissing(data_in,
     Pairwise relations in missingness (co-missing) between variables/subjects.
 
     """
+
+    raise NotImplementedError()
 
 
 def reorder_rows(cell_flag, row_labels, row_group_index):
