@@ -40,4 +40,6 @@ Installation
 --------------
 
 .. code-block:: bash
+
     pip install -U missingdata
+
