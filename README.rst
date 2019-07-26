@@ -6,6 +6,10 @@ missingdata
 .. image:: https://img.shields.io/pypi/v/missingdata.svg
         :target: https://pypi.python.org/pypi/missingdata
 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3352336.svg
+        :target: https://doi.org/10.5281/zenodo.3352336
+        :alt: citation
+
 .. image:: https://img.shields.io/travis/raamana/missingdata.svg
         :target: https://travis-ci.org/raamana/missingdata
 
@@ -98,3 +102,14 @@ The other parameters for the function are self-explanatory.
 
 Please open an `issue <https://github.com/raamana/missingdata/issues/new>`_
 if you find something confusing, or have feedback to improve, or identify a bug. **Thanks**.
+
+
+Citation
+----------------
+
+If you find this package useful, I'd greatly appreciate if cite this package via:
+
+.. parsed-literal::
+
+    Pradeep Reddy Raamana, (2019), "missingdata python library" (Version v0.1). Zenodo. http://doi.org/10.5281/zenodo.3352336
+    DOI: 10.5281/zenodo.3352336
