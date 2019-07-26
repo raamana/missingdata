@@ -19,11 +19,11 @@ missing data visualization and imputation
 Goals
 --------
 
-Povide an easy to use yet thorough assessment of missing values in one's dataset:
+To provide an easy to use yet thorough assessment of missing values in one's dataset:
 
- - in addition to the blackholes plot bellow, 
- - show the variable-to-variable, subject-to-subject co-missingness, and 
- - quantify the TYPE of missingness etc 
+ - in addition to the blackholes plot bellow,
+ - show the variable-to-variable, subject-to-subject co-missingness, and
+ - quantify the TYPE of missingness etc
 
 
 Note
@@ -62,3 +62,35 @@ Installation
 
     pip install -U missingdata
 
+
+
+Usage
+------------
+
+Let's say you have all the data in a pandas `DataFrame`, where subject IDs are in a ``sub_ids`` column
+and variable names are in a ``var_names`` column, and they belong to groups identified by ``sub_class`` and ``var_group``,
+you can use the following code produce the ``blackholes`` plot:
+
+.. code-block:: python
+
+    from missingdata import blackholes
+
+    blackholes(data_frame, label_rows_with='sub_ids', label_cols_with='var_names')
+
+
+
+If you were interested in seeing subjects/variables with least amount of missing data, you can control miss perc window
+with ``filter_spec_samples`` and ``filter_spec_variables`` by passing a tuple of two floats e.g. (0, 0.1) which
+will filter away those with more than 10% of missing data.
+
+.. code-block:: python
+
+    from missingdata import blackholes
+
+    blackholes(data_frame, label_rows_with='sub_ids', label_cols_with='var_names')
+
+
+The other parameters for the function are self-explanatory.
+
+Please open an `issue <https://github.com/raamana/missingdata/issues/new>`_
+if you find something confusing, or have feedback to improve, or identify a bug. **Thanks**.
