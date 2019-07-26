@@ -29,7 +29,7 @@ Povide an easy to use yet thorough assessment of missing values in one's dataset
 Note
 ~~~~~~~~~~~~~
 
-    To easily manage your data with missing values etc, I strongly recommend you to move away from CSV files and start managing your data in self-contained flexible data structures like ``[pyradigm](http://github.com/raamana/pyradigm)``, as your data, as well your needs, will only get bigger & more complicated e.g. with mixed-types, missing values and large number of groups.
+    To easily manage your data with missing values etc, I strongly recommend you to move away from CSV files and start managing your data in self-contained flexible data structures like `pyradigm <http://github.com/raamana/pyradigm>`_, as your data, as well your needs, will only get bigger & more complicated e.g. with mixed-types, missing values and large number of groups.
 
 
 These would be great contributions if you have time.
