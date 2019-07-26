@@ -67,27 +67,31 @@ Installation
 Usage
 ------------
 
-Let's say you have all the data in a pandas `DataFrame`, where subject IDs are in a ``sub_ids`` column
-and variable names are in a ``var_names`` column, and they belong to groups identified by ``sub_class`` and ``var_group``,
+Let's say you have all the data in a pandas `DataFrame`, where subject IDs are in a ``'sub_ids'`` column
+and variable names are in a ``'var_names'`` column, and they belong to groups identified by ``sub_class`` and ``var_group``,
 you can use the following code produce the ``blackholes`` plot:
 
 .. code-block:: python
 
     from missingdata import blackholes
 
-    blackholes(data_frame, label_rows_with='sub_ids', label_cols_with='var_names')
+    blackholes(data_frame,
+               label_rows_with='sub_ids', label_cols_with='var_names',
+               group_rows_by=sub_class, group_cols_by=var_group)
 
 
 
 If you were interested in seeing subjects/variables with least amount of missing data, you can control miss perc window
-with ``filter_spec_samples`` and ``filter_spec_variables`` by passing a tuple of two floats e.g. (0, 0.1) which
+with ``filter_spec_samples`` and/or ``filter_spec_variables`` by passing a tuple of two floats e.g. (0, 0.1) which
 will filter away those with more than 10% of missing data.
 
 .. code-block:: python
 
     from missingdata import blackholes
 
-    blackholes(data_frame, label_rows_with='sub_ids', label_cols_with='var_names')
+    blackholes(data_frame,
+               label_rows_with='sub_ids', label_cols_with='var_names',
+               filter_spec_samples=(0, 0.1))
 
 
 The other parameters for the function are self-explanatory.
