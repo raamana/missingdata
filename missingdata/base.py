@@ -82,7 +82,7 @@ def blackholes(data_in,
     try:
         data_in = pd.DataFrame(data_in)
     except:
-        raise ValueError('Input must be convertible pandas dataframe!')
+        raise ValueError('Input must be convertible to a pandas dataframe!')
 
     num_rows_orig, num_cols_orig = data_in.shape
     if len(data_in.shape) != 2:
@@ -408,7 +408,7 @@ def _validate_filter_spec(spec):
     return filter_func
 
 
-def process_labels(data, labels, length, default='row', type_='row'):
+def process_labels(data, labels, length, default_prefix='row', type_='row'):
     """Returns the labels for samples/variables."""
 
     strip_all = lambda arr : [lbl.strip() for lbl in arr]
@@ -421,10 +421,10 @@ def process_labels(data, labels, length, default='row', type_='row'):
         else:
             raise ValueError('invalid input for {} labels'.format(type_))
     else:
-        if isinstance(default,str):
-            out_labels = ['{}{}'.format(prefix, x) for x in range(length)]
-        elif len(default) == length:
-            out_labels = default
+        if isinstance(default_prefix, str):
+            out_labels = ['{}{}'.format(default_prefix, x) for x in range(length)]
+        elif len(default_prefix) == length:
+            out_labels = default_prefix
         else:
             raise ValueError('Invalid spec for obtaining {} labels!'.format(type_))
 
