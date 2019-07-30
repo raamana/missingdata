@@ -40,6 +40,12 @@ def blackholes(data_in,
                ):
     """Visualization of holes (missingness) in data and their frequency.
 
+    If you don't see any labels (for rows or columns), it may be because the total
+    effective number of rows/cols being displayed, after applying filter_spec_*,
+    exceeded a preset number (60/80) to avoid occlusion or illegible labeling.
+    You can use the  the parameter freq_thresh_show_labels to bring the effective
+    number of rows/cols to display to smaller number.
+
     data_in : pandas DataFrame or ndarray
         of shape: (num_rows, num_col)
 
@@ -88,6 +94,11 @@ def blackholes(data_in,
         frequency below this value. Very useful in when number of samples or variables
         is large, and you would like to see the holes (missing values) in the context
         of complete-data, while being able to easily identify which ones are missing.
+        This parameter/option exists to avoid occlusion or illegible labeling, when
+        the total effective number of rows/cols being displayed, after applying
+        filter_spec_*, exceeded a preset number (60/80) to avoid occlusion or
+        illegible labeling. You can use a higher threshold to bring the effective
+        number of rows/cols to display to smaller number.
         Default: 0.0
 
     group_wise_colorbar : bool
