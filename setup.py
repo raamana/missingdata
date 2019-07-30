@@ -3,13 +3,12 @@
 
 """The setup script."""
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
-requirements = [ ]
-
-setup_requirements = ['pytest-runner', ]
-
-test_requirements = ['pytest', ]
+requirements = ['numpy',
+                'pandas',
+                'xlrd',
+                'matplotlib']
 
 setup(
     author="Pradeep Reddy Raamana",
@@ -26,7 +25,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
-    ],
+        ],
     description="missing data visualization and imputation",
     install_requires=requirements,
     license="Apache Software License 2.0",
@@ -36,10 +35,10 @@ setup(
     keywords='missingdata',
     name='missingdata',
     packages=find_packages(include=['missingdata']),
-    setup_requires=setup_requirements,
+    setup_requires=requirements,
     test_suite='tests',
-    tests_require=test_requirements,
+    tests_require=requirements,
     url='https://github.com/raamana/missingdata',
     version='0.1',
     zip_safe=False,
-)
+    )
