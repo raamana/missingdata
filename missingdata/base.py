@@ -47,7 +47,7 @@ def blackholes(data_in,
     You can use the  the parameter freq_thresh_show_labels to bring the effective
     number of rows/cols to display to smaller number.
 
-    data_in : pandas DataFrame or ndarray
+    data_in : pandas DataFrame
         of shape: (num_rows, num_col)
 
     filter_spec_samples : (float, float) or callable
@@ -66,11 +66,13 @@ def blackholes(data_in,
     filter_spec_variables : (float, float) or callable
         same as filter_spec_samples (which is for rows), except for variables (columns)
 
-    label_rows_with : str
-        Name of the variable in panda DataFrame to label rows with
+    label_rows_with : str or int or list of len num_rows
+        Name of the variable in panda DataFrame to label rows with, or a list of
+        elements convertible to str (like int etc) of the same length as num_rows
 
-    label_cols_with : str
-        Name of the variable in panda DataFrame to label columns with
+    label_cols_with : str or int or list of len num_cols
+        Name of the variable in panda DataFrame to label columns with, or a list of
+        elements convertible to str (like int etc) of the same length as num_rows
 
     group_rows_by : iterable, of length num_rows
         List of strings or numbers denoting their membership/category
@@ -503,7 +505,10 @@ def process_labels(data, labels, length, default_prefix='row', type_='row'):
         elif len(labels) == length:
             out_labels = labels
         else:
-            raise ValueError('invalid input for {} labels'.format(type_))
+            raise ValueError('invalid input for {} labels!'
+                             'It must be a column name in DataFrame or a list of '
+                             'str or int, of the same number of {}s'
+                             ''.format(type_, type_))
     else:
         if isinstance(default_prefix, str):
             out_labels = ['{}{}'.format(default_prefix, x) for x in range(length)]
@@ -511,5 +516,8 @@ def process_labels(data, labels, length, default_prefix='row', type_='row'):
             out_labels = default_prefix
         else:
             raise ValueError('Invalid spec for obtaining {} labels!'.format(type_))
+
+    # forcing them to be strings
+    out_labels = [str(lbl) for lbl in out_labels]
 
     return np.array(strip_all(out_labels), dtype='str')
