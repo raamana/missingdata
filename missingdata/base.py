@@ -23,8 +23,8 @@ from missingdata.utils import set_labels, remove_ticks_labels, check_freq_thresh
 
 
 def blackholes(data_in,
-               filter_spec_samples=(np.finfo(np.float32).eps, 1.0),
-               filter_spec_variables=(np.finfo(np.float32).eps, 1.0),
+               filter_spec_samples=None,
+               filter_spec_variables=None,
                label_rows_with=None,
                label_cols_with=None,
                group_rows_by=None,
@@ -95,6 +95,15 @@ def blackholes(data_in,
                                 'row', 'row')
     col_labels = process_labels(data_in, label_cols_with, num_cols_orig,
                                 data_in.columns, 'col')
+
+    # adjusting defaults when dealing with very small samples
+    # as even a small eps requirement for miss perc can exclude most samples
+    filter_spec_samples = _set_default_filter_spec(filter_spec_samples,
+                                                   data_in.shape[0],
+                                                   cfg.MAX_ROWS_DISPLAYABLE)
+    filter_spec_variables = _set_default_filter_spec(filter_spec_variables,
+                                                   data_in.shape[1],
+                                                   cfg.MAX_COLS_DISPLAYABLE)
 
     # filtering data
     data, row_filter, col_filter = freq_filter(data_in,
@@ -386,6 +395,17 @@ def freq_filter(data, row_spec, col_spec):
     filtered_cols = np.fromiter(map(col_filter, col_freq / col_freq.size), dtype=bool)
 
     return data.iloc[filtered_rows, filtered_cols], filtered_rows, filtered_cols
+
+
+def _set_default_filter_spec(spec, size, max_size):
+    """Adjusts the defaults filter spec when dealing with small samples"""
+
+    if spec is None:
+        out_spec = (0, 1) if size < max_size else (np.finfo(np.float32).eps, 1.0)
+    else:
+        out_spec = spec
+
+    return out_spec
 
 
 def _validate_filter_spec(spec):
