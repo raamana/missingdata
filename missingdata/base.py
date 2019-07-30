@@ -19,7 +19,8 @@ from matplotlib import colors
 from os.path import realpath
 
 from missingdata import config as cfg
-from missingdata.utils import set_labels, remove_ticks_labels, check_freq_thresh_labels
+from missingdata.utils import set_labels, remove_ticks_labels, \
+    check_freq_thresh_labels
 
 
 def blackholes(data_in,
@@ -39,7 +40,7 @@ def blackholes(data_in,
                ):
     """Visualization of holes (missingness) in data and their frequency.
 
-    data : pandas DataFrame or ndarray
+    data_in : pandas DataFrame or ndarray
         of shape: (num_rows, num_col)
 
     filter_spec_samples : (float, float) or callable
@@ -58,6 +59,12 @@ def blackholes(data_in,
     filter_spec_variables : (float, float) or callable
         same as filter_spec_samples (which is for rows), except for variables (columns)
 
+    label_rows_with : str
+        Name of the variable in panda DataFrame to label rows with
+
+    label_cols_with : str
+        Name of the variable in panda DataFrame to label columns with
+
     group_rows_by : iterable, of length num_rows
         List of strings or numbers denoting their membership/category
 
@@ -68,14 +75,36 @@ def blackholes(data_in,
         Color name must be one from either
         https://matplotlib.org/examples/color/named_colors.html or
         https://xkcd.com/color/rgb/ (prefix them with 'xkcd:')
+        Default: 'black'
+
+    backkground_color : str or RGB
+        Color name must be one from either
+        https://matplotlib.org/examples/color/named_colors.html or
+        https://xkcd.com/color/rgb/ (prefix them with 'xkcd:')
+        Default: 'silver'
 
     freq_thresh_show_labels : float
         A threshold [0, 1) to not show labels for samples/columns with missingness
         frequency below this value. Very useful in when number of samples or variables
         is large, and you would like to see the holes (missing values) in the context
         of complete-data, while being able to easily identify which ones are missing.
+        Default: 0.0
+
+    group_wise_colorbar : bool
+        Flag to indicate whether to display the innermost colorbar
+        to indicate the groups rows or columns belong to
+        Default: False
 
     figsize : tuple
+        Tuple of (width, height) to control the size of the plot.
+        Default: (15, 10)
+
+    out_path : str
+        Absolute path to export the figure to disk (PDF format, 300dpi).
+
+    show_fig : bool
+        Flag to indicate whether to bring the figure to foreground
+        Default: False
 
     """
 
