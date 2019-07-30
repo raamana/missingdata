@@ -4,6 +4,7 @@
 """The setup script."""
 
 from setuptools import find_packages, setup
+import versioneer
 
 requirements = ['numpy',
                 'pandas',
@@ -34,11 +35,12 @@ setup(
     include_package_data=True,
     keywords='missingdata',
     name='missingdata',
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     packages=find_packages(include=['missingdata']),
     setup_requires=requirements,
     test_suite='tests',
     tests_require=requirements,
     url='https://github.com/raamana/missingdata',
-    version='0.1',
     zip_safe=False,
     )
