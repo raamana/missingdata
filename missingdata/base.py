@@ -45,7 +45,7 @@ def blackholes(data_in,
     effective number of rows/cols being displayed, after applying filter_spec_*,
     exceeded a preset number (60/80) to avoid occlusion or illegible labeling.
     You can use the  the parameter freq_thresh_show_labels to bring the effective
-    number of rows/cols to display to smaller number.
+    number of rows/cols to display to a smaller number.
 
     data_in : pandas DataFrame
         of shape: (num_rows, num_col)

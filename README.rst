@@ -71,13 +71,27 @@ Installation
 Usage
 ------------
 
-Let's say you have all the data in a pandas `DataFrame`, where subject IDs are in a ``'sub_ids'`` column
-and variable names are in a ``'var_names'`` column, and they belong to groups identified by ``sub_class`` and ``var_group``,
-you can use the following code produce the ``blackholes`` plot:
+Take a look at the help text first before diving in to use it - with the following code:
 
 .. code-block:: python
 
     from missingdata import blackholes
+    help(blackholes)
+
+
+I encourage you to read the text for each parameter carefully to understand the behaviour of this plotting mechanism.
+
+.. note::
+
+    If you don't see any labels (for rows or columns), when you try the blackholes plot for the first time, it may be because the total effective number of rows/cols being displayed, after applying ``filter_spec_*``, exceeded a preset number (60/80) to avoid occlusion or illegible labeling. You can use the  the parameter freq_thresh_show_labels to bring the effective number of rows/cols to display to a smaller number.
+
+    **Also**, the defaults chosen may not work for you, hence I strongly encourage you to control as many parameters as needed to customize the plot to your liking. If a feature you need is not served currently, send a PR with improvements, or open an issue. Thanks.
+
+
+Let's say you have all the data in a pandas `DataFrame`, where subject IDs are in a ``'sub_ids'`` column and variable names are in a ``'var_names'`` column, and they belong to groups identified by ``sub_class`` and ``var_group``, you can use the following code produce the ``blackholes`` plot:
+
+.. code-block:: python
+
 
     blackholes(data_frame,
                label_rows_with='sub_ids', label_cols_with='var_names',
@@ -90,8 +104,6 @@ with ``filter_spec_samples`` and/or ``filter_spec_variables`` by passing a tuple
 will filter away those with more than 10% of missing data.
 
 .. code-block:: python
-
-    from missingdata import blackholes
 
     blackholes(data_frame,
                label_rows_with='sub_ids', label_cols_with='var_names',
@@ -111,5 +123,5 @@ If you find this package useful, I'd greatly appreciate if cite this package via
 
 .. parsed-literal::
 
-    Pradeep Reddy Raamana, (2019), "missingdata python library" (Version v0.1). Zenodo. http://doi.org/10.5281/zenodo.3352336
+    Pradeep Reddy Raamana, (2019), "missingdata python library for visualization and handling of missing values" (Version v0.1). Zenodo. http://doi.org/10.5281/zenodo.3352336
     DOI: 10.5281/zenodo.3352336
