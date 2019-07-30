@@ -91,12 +91,14 @@ def blackholes(data_in,
     label_filter = check_freq_thresh_labels(freq_thresh_show_labels)
 
     # ---- labels
-    row_labels = process_labels(data_in, label_rows_with, num_rows_orig, 'row', 'row')
-    col_labels = process_labels(data_in, label_cols_with, num_cols_orig, data_in.columns,
-                                'col')
+    row_labels = process_labels(data_in, label_rows_with, num_rows_orig,
+                                'row', 'row')
+    col_labels = process_labels(data_in, label_cols_with, num_cols_orig,
+                                data_in.columns, 'col')
 
     # filtering data
-    data, row_filter, col_filter = freq_filter(data_in, filter_spec_samples,
+    data, row_filter, col_filter = freq_filter(data_in,
+                                               filter_spec_samples,
                                                filter_spec_variables)
     # accordingly filterning labels
     row_labels = row_labels[row_filter]
@@ -183,13 +185,19 @@ def blackholes(data_in,
     ext_frame = (frame_left, frame_bottom, width, height)
     # FOR: freq over rows
     if show_col_groups:
-        ext_show_col_groups = (frame_left, frame_bottom+ext_frame[3]+group_cell_height+0.005,
-                          width, group_cell_height)
-        ext_FOR = (frame_left, ext_show_col_groups[1]+group_cell_height+0.01,
-                   width, freq_cell_size)
+        ext_show_col_groups = (frame_left,
+                               frame_bottom+ext_frame[3]+group_cell_height+0.005,
+                               width,
+                               group_cell_height)
+        ext_FOR = (frame_left,
+                   ext_show_col_groups[1]+group_cell_height+0.01,
+                   width,
+                   freq_cell_size)
     else:
-        ext_FOR = (frame_left, frame_bottom+ height + freq_cell_size + 0.02,
-               width, freq_cell_size)
+        ext_FOR = (frame_left,
+                   frame_bottom+ height + freq_cell_size + 0.02,
+                   width,
+                   freq_cell_size)
 
     # ---
     ax_frame = fig.add_axes(ext_frame, frameon=False)
