@@ -55,8 +55,8 @@ blackholes plot
 
 State
 -------
- - Software is beta and under dev
- - Contributions most welcome.
+ - Software is beta and under dev. **Update regularly and quite often!!**
+ - Contributions most welcome, esp. reporting bugs and improving usability.
 
 
 Installation
