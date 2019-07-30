@@ -33,6 +33,7 @@ def blackholes(data_in,
                missing_color='black',
                backkground_color='silver',
                freq_thresh_show_labels=0.0,
+               show_all_labels=False,
                group_wise_colorbar=False,
                figsize=(15, 10),
                out_path=None,
@@ -100,6 +101,13 @@ def blackholes(data_in,
         illegible labeling. You can use a higher threshold to bring the effective
         number of rows/cols to display to smaller number.
         Default: 0.0
+
+    show_all_labels : bool
+        A parameter to force the display of labels for both rows and columns,
+        even if their number is large and they may result in text becoming
+        occluded or illegible. The parameter freq_thresh_show_labels takes
+        precedence over this parameter.
+        Default: False
 
     group_wise_colorbar : bool
         Flag to indicate whether to display the innermost colorbar
@@ -262,10 +270,10 @@ def blackholes(data_in,
                    range(num_rows), row_labels,
                    row_wise_freq, label_filter)
     else:
-        if num_rows >= cfg.MAX_ROWS_DISPLAYABLE:
-            remove_ticks_labels(ax_freq_over_col, 'y')
-        else:
+        if show_all_labels or num_rows <= cfg.MAX_ROWS_DISPLAYABLE:
             set_labels(ax_freq_over_col, 'y', range(num_rows), row_labels)
+        else:
+            remove_ticks_labels(ax_freq_over_col, 'y')
 
     ax_freq_over_col.imshow(row_wise_freq)
     ax_freq_over_col.set_aspect('auto')
@@ -280,11 +288,11 @@ def blackholes(data_in,
         set_labels(ax_freq_over_row, 'x', range(num_cols), col_labels,
                    col_wise_freq.ravel(), label_filter, rotation=90)
     else:
-        if num_cols > cfg.MAX_COLS_DISPLAYABLE:
-            remove_ticks_labels(ax_freq_over_row, 'x')
-        else:
+        if show_all_labels or num_cols <= cfg.MAX_COLS_DISPLAYABLE:
             set_labels(ax_freq_over_row, 'x', range(num_cols), col_labels,
                        rotation=90)
+        else:
+            remove_ticks_labels(ax_freq_over_row, 'x')
     ax_freq_over_row.set_aspect('auto')
 
     # --- grouping indicators: direct association by proximity
@@ -317,7 +325,7 @@ def blackholes(data_in,
         ax_row_groups.imshow(grpwise_freq_row)
         remove_ticks_labels(ax_row_groups, 'x')
         ax_row_groups.yaxis.tick_right()
-        if num_row_groups <= cfg.MAX_ROWS_DISPLAYABLE:
+        if show_all_labels or num_row_groups <= cfg.MAX_ROWS_DISPLAYABLE:
             ax_row_groups.set(yticks=range(num_row_groups), yticklabels=row_group_set)
         else:
             remove_ticks_labels(ax_row_groups, 'y')
@@ -334,7 +342,7 @@ def blackholes(data_in,
         ax_col_groups = fig.add_axes(ext_col_groups) #sharex would be a problem
         ax_col_groups.imshow(grpwise_freq_col)
         remove_ticks_labels(ax_col_groups, 'y')
-        if num_col_groups <= cfg.MAX_COLS_DISPLAYABLE:
+        if show_all_labels or num_col_groups <= cfg.MAX_COLS_DISPLAYABLE:
             ax_col_groups.set(xticks=range(num_col_groups), xticklabels=col_group_set)
         else:
             remove_ticks_labels(ax_col_groups, 'x')
