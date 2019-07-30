@@ -233,6 +233,7 @@ def blackholes(data_in,
     # ---
     ax_freq_over_row = fig.add_axes(ext_FOR, sharex=ax_frame)
     ax_freq_over_row.imshow(col_wise_freq)
+    ax_freq_over_row.xaxis.tick_top()
     remove_ticks_labels(ax_freq_over_row, 'y')
     if freq_thresh_show_labels > 0.0:
         ax_freq_over_row.xaxis.set_ticks_position('top')
@@ -242,7 +243,8 @@ def blackholes(data_in,
         if num_cols > cfg.MAX_COLS_DISPLAYABLE:
             remove_ticks_labels(ax_freq_over_row, 'x')
         else:
-            set_labels(ax_freq_over_row, 'x', range(num_cols), col_labels)
+            set_labels(ax_freq_over_row, 'x', range(num_cols), col_labels,
+                       rotation=90)
     ax_freq_over_row.set_aspect('auto')
 
     # --- grouping indicators: direct association by proximity
