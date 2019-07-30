@@ -267,8 +267,10 @@ def blackholes(data_in,
     if show_row_groups and group_wise_colorbar:
         grpwise_freq_row = np.array([row_wise_freq[group_rows_sorted==row].sum() for
                                      row in row_group_set]).reshape(-1,1)
-        ext_row_groups = (ext_frame[0]+ext_frame[2]+0.01, frame_bottom,
-                          freq_cell_size, height)
+        ext_row_groups = (ext_frame[0]+ext_frame[2]+0.01,
+                          frame_bottom,
+                          freq_cell_size,
+                          height)
         ax_row_groups = fig.add_axes(ext_row_groups) #sharey would be a problem
         ax_row_groups.imshow(grpwise_freq_row)
         remove_ticks_labels(ax_row_groups, 'x')
@@ -283,8 +285,10 @@ def blackholes(data_in,
     if show_col_groups and group_wise_colorbar:
         grpwise_freq_col = np.array([col_wise_freq[:, group_cols_sorted==col].sum() for
                                      col in col_group_set]).reshape(1,-1)
-        ext_col_groups = (frame_left, frame_bottom - freq_cell_size - 0.02,
-                          width, freq_cell_size)
+        ext_col_groups = (frame_left,
+                          frame_bottom - freq_cell_size - 0.02,
+                          width,
+                          freq_cell_size)
         ax_col_groups = fig.add_axes(ext_col_groups) #sharex would be a problem
         ax_col_groups.imshow(grpwise_freq_col)
         remove_ticks_labels(ax_col_groups, 'y')
@@ -353,7 +357,8 @@ def decorate_row_groups_with_total_freq(ax, group_idx, freq, group_names):
                 color=cfg.grouping_text_color,
                 # backgroundcolor=cfg.grouping_text_color_background,
                 fontweight=cfg.grouping_fontweight,
-                rotation=90, verticalalignment='center')
+                rotation=90,
+                verticalalignment='center')
 
 
 def decorate_col_groups_with_total_freq(ax, group_idx, freq, group_names):
@@ -376,7 +381,8 @@ def decorate_col_groups_with_total_freq(ax, group_idx, freq, group_names):
                 color=cfg.grouping_text_color,
                 # backgroundcolor=cfg.grouping_text_color_background,
                 fontweight=cfg.grouping_fontweight,
-                horizontalalignment='center', verticalalignment='center')
+                horizontalalignment='center',
+                verticalalignment='center')
 
 
 def freq_filter(data, row_spec, col_spec):
