@@ -43,9 +43,16 @@ def blackholes(data_in,
 
     If you don't see any labels (for rows or columns), it may be because the total
     effective number of rows/cols being displayed, after applying filter_spec_*,
-    exceeded a preset number (60/80) to avoid occlusion or illegible labeling.
-    You can use the  the parameter freq_thresh_show_labels to bring the effective
-    number of rows/cols down to display to a smaller number.
+    exceeded a preset number (60/80) to and we removed the labels to avoid them
+    getting occluded or becoming illegible. You can use the  the parameter
+    freq_thresh_show_labels to bring the effective number of rows/cols down to
+    display to a smaller number. Or you can also pass ``show_all_labels=True`` to
+    force the display of labels. If number of subjects or variables is large,
+    you may want to increase ``figsize`` (width or height), to minimize occlusion
+    and improve label readability.
+
+    Parameters
+    ----------
 
     data_in : pandas DataFrame
         of shape: (num_rows, num_col)
@@ -126,6 +133,26 @@ def blackholes(data_in,
     show_fig : bool
         Flag to indicate whether to bring the figure to foreground
         Default: False
+
+    Returns
+    -------
+    fig : matplotlib.Figure
+        Handle to the figure created
+
+    ax_frame : matplotlib.Axis
+        Handle to the main frame (matrix) in the visualization
+
+    ax_freq_over_row : matplotlib.Axis
+        Handle to colorbar (topmost) showing subject-wise frequency (per variable)
+
+    ax_freq_over_col : matplotlib.Axis
+        Handle to colorbar (leftmost) showing variable-wise frequency (per subject)
+
+    ax_row_groups : matplotlib.Axis
+        Handle to colorbar (top innermost) showing variable-wise groups/membership
+
+    ax_col_groups : matplotlib.Axis
+        Handle to colorbar (left innermost) showing subject-wise groups/membership
 
     """
 

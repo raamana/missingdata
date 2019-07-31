@@ -84,7 +84,7 @@ I encourage you to read the text for each parameter carefully to understand the 
 
 .. note::
 
-    If you don't see any labels (for rows or columns), when you try the blackholes plot for the first time, it may be because the total effective number of rows/cols being displayed, after applying ``filter_spec_*``, exceeded a preset number (60/80) to avoid occlusion or illegible labeling. You can use the  the parameter freq_thresh_show_labels to bring the effective number of rows/cols down to display to a smaller number.
+    If you don't see any labels (for rows or columns), when you try the blackholes plot for the first time, it may be because the total effective number of rows/cols being displayed, after applying ``filter_spec_*``, exceeded a preset number (60/80) and we removed the labels to avoid them getting occluded or becoming illegible. You can use the parameter freq_thresh_show_labels to bring the effective number of rows/cols down to display to a smaller number, or pass ``show_all_labels=True`` to force the display of labels. If number of subjects or variables is large, you may want to increase ``figsize`` (width or height), to minimize occlusion and improve label readability.
 
     **Also**, the defaults chosen may not work for you, hence I strongly encourage you to control as many parameters as needed to customize the plot to your liking. If a feature you need is not served currently, send a PR with improvements, or open an issue. Thanks.
 
